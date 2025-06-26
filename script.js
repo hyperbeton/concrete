@@ -2,58 +2,67 @@ document.addEventListener('DOMContentLoaded', function() {
     // Прелоадер
     window.addEventListener('load', function() {
         const preloader = document.querySelector('.preloader');
-        preloader.style.opacity = '0';
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
+        if (preloader) {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        }
     });
 
     // Инициализация AOS
-    AOS.init({
-        duration: 800,
-        once: true,
-        easing: 'ease-in-out'
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-in-out',
+            disable: function() {
+                return window.innerWidth < 576;
+            }
+        });
+    }
 
     // Мобильное меню
     const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.createElement('div');
-    mobileMenu.className = 'mobile-menu';
-    mobileMenu.innerHTML = `
-        <div class="mobile-links">
-            <a href="#calculator">Калькулятор</a>
-            <a href="#products">Продукция</a>
-            <a href="#advantages">Преимущества</a>
-            <a href="#projects">Проекты</a>
-            <a href="#contacts">Контакты</a>
-        </div>
-        <div class="mobile-contacts">
-            <a href="tel:+998977396164" class="btn btn-primary">
-                <i class="fas fa-phone-alt"></i>
-                <span>+998 97 739 61 64</span>
-            </a>
-            <button class="btn btn-secondary" id="mobileOrderBtn">
-                <span>Заказать бетон</span>
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    `;
-    document.body.appendChild(mobileMenu);
+    if (hamburger) {
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.innerHTML = `
+            <div class="mobile-links">
+                <a href="#calculator">Калькулятор</a>
+                <a href="#products">Продукция</a>
+                <a href="#advantages">Преимущества</a>
+                <a href="#projects">Проекты</a>
+                <a href="#contacts">Контакты</a>
+            </div>
+            <div class="mobile-contacts">
+                <a href="tel:+998977396164" class="btn btn-primary">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+998 97 739 61 64</span>
+                </a>
+                <button class="btn btn-secondary" id="mobileOrderBtn">
+                    <span>Заказать бетон</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        `;
+        document.body.appendChild(mobileMenu);
 
-    hamburger.addEventListener('click', function() {
-        this.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        document.body.classList.toggle('no-scroll');
-    });
-
-    // Закрытие меню при клике на ссылку
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.classList.remove('no-scroll');
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
         });
-    });
+
+        // Закрытие меню при клике на ссылку
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            });
+        });
+    }
 
     // Плавная прокрутка
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -66,7 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 targetElement.scrollIntoView({
-                    behavior: 'smooth'
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         });
@@ -74,13 +84,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Фиксация шапки при скролле
     const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
     // Модальное окно
     const modal = document.getElementById('orderModal');
@@ -95,25 +107,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openModal() {
         document.body.classList.add('no-scroll');
-        modal.classList.add('active');
+        if (modal) modal.classList.add('active');
     }
 
     function closeModal() {
         document.body.classList.remove('no-scroll');
-        modal.classList.remove('active');
+        if (modal) modal.classList.remove('active');
     }
 
     openModalButtons.forEach(btn => {
         if (btn) btn.addEventListener('click', openModal);
     });
 
-    modalClose.addEventListener('click', closeModal);
+    if (modalClose) modalClose.addEventListener('click', closeModal);
 
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
 
     // Данные для калькулятора
     const concreteData = {
@@ -171,26 +185,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Маска для телефона
-    document.getElementById('modalPhone').addEventListener('input', function(e) {
-        let value = this.value.replace(/\D/g, '');
-        if (value.startsWith('998')) {
-            value = '+' + value;
-        } else if (!value.startsWith('+998') && value.length > 0) {
-            value = '+998' + value;
-        }
-        this.value = value.substring(0, 13);
-    });
+    const modalPhone = document.getElementById('modalPhone');
+    if (modalPhone) {
+        modalPhone.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.startsWith('998')) {
+                value = '+' + value;
+            } else if (!value.startsWith('+998') && value.length > 0) {
+                value = '+998' + value;
+            }
+            this.value = value.substring(0, 13);
+        });
+    }
 
     // Обновление итоговой суммы
     function updateTotal() {
         const gradePrice = concreteData.grades[calculatorState.grade].price;
         const total = gradePrice * calculatorState.volume;
         
-        document.getElementById('summaryGrade').textContent = concreteData.grades[calculatorState.grade].name;
-        document.getElementById('summaryVolume').textContent = `${calculatorState.volume} м³`;
-        document.getElementById('summaryDelivery').textContent = 
-            `${calculatorState.deliveryAddress || 'Не указано'}, ${calculatorState.deliveryDate || 'Не указано'}, ${calculatorState.deliveryTime}`;
-        document.getElementById('summaryTotal').textContent = `${formatNumber(total)} сум`;
+        const summaryGrade = document.getElementById('summaryGrade');
+        const summaryVolume = document.getElementById('summaryVolume');
+        const summaryDelivery = document.getElementById('summaryDelivery');
+        const summaryTotal = document.getElementById('summaryTotal');
+        
+        if (summaryGrade) summaryGrade.textContent = concreteData.grades[calculatorState.grade].name;
+        if (summaryVolume) summaryVolume.textContent = `${calculatorState.volume} м³`;
+        if (summaryDelivery) {
+            summaryDelivery.textContent = 
+                `${calculatorState.deliveryAddress || 'Не указано'}, ${calculatorState.deliveryDate || 'Не указано'}, ${calculatorState.deliveryTime}`;
+        }
+        if (summaryTotal) summaryTotal.textContent = `${formatNumber(total)} сум`;
     }
 
     // Кнопки заказа в карточках продукции
@@ -198,55 +222,59 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const grade = this.getAttribute('data-grade');
             if (grade) {
-                document.getElementById('modalGrade').value = grade;
+                const modalGrade = document.getElementById('modalGrade');
+                if (modalGrade) modalGrade.value = grade;
             }
             
             // Если объем был указан в калькуляторе, переносим его в модальное окно
             if (calculatorState.volume && calculatorState.volume > 0) {
-                document.getElementById('modalVolume').value = calculatorState.volume;
+                const modalVolume = document.getElementById('modalVolume');
+                if (modalVolume) modalVolume.value = calculatorState.volume;
             }
         });
     });
 
     // Обработчик отправки формы
-    document.getElementById('orderForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Получаем значения из формы
-        const name = document.getElementById('modalName').value;
-        const phone = document.getElementById('modalPhone').value;
-        const email = document.getElementById('modalEmail').value;
-        const grade = document.getElementById('modalGrade').value;
-        const volume = parseFloat(document.getElementById('modalVolume').value);
-        const address = document.getElementById('modalAddress').value;
-        const comment = document.getElementById('modalComment').value;
-        
-        // Проверка обязательных полей
-        if (!phone) {
-            showNotification('Пожалуйста, укажите ваш телефон', 'error');
-            return;
-        }
-        
-        // Проверка формата телефона
-        if (!validatePhone(phone)) {
-            showNotification('Пожалуйста, укажите телефон в формате +998XXXXXXXXX', 'error');
-            return;
-        }
-        
-        if (!grade || grade === '') {
-            showNotification('Пожалуйста, выберите марку бетона', 'error');
-            return;
-        }
-        
-        if (!volume || volume < 1) {
-            showNotification('Пожалуйста, укажите объем не менее 1 м³', 'error');
-            return;
-        }
-        
-        // Если все проверки пройдены, формируем сообщение
-        const totalPrice = concreteData.grades[grade].price * volume;
-        
-        const message = `🚀 *Новая заявка на бетон* 🚀
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Получаем значения из формы
+            const name = document.getElementById('modalName').value;
+            const phone = document.getElementById('modalPhone').value;
+            const email = document.getElementById('modalEmail').value;
+            const grade = document.getElementById('modalGrade').value;
+            const volume = parseFloat(document.getElementById('modalVolume').value);
+            const address = document.getElementById('modalAddress').value;
+            const comment = document.getElementById('modalComment').value;
+            
+            // Проверка обязательных полей
+            if (!phone) {
+                showNotification('Пожалуйста, укажите ваш телефон', 'error');
+                return;
+            }
+            
+            // Проверка формата телефона
+            if (!validatePhone(phone)) {
+                showNotification('Пожалуйста, укажите телефон в формате +998XXXXXXXXX', 'error');
+                return;
+            }
+            
+            if (!grade || grade === '') {
+                showNotification('Пожалуйста, выберите марку бетона', 'error');
+                return;
+            }
+            
+            if (!volume || volume < 1) {
+                showNotification('Пожалуйста, укажите объем не менее 1 м³', 'error');
+                return;
+            }
+            
+            // Если все проверки пройдены, формируем сообщение
+            const totalPrice = concreteData.grades[grade].price * volume;
+            
+            const message = `🚀 *Новая заявка на бетон* 🚀
 
 ▫️ *Имя*: ${name || 'Не указано'}
 ▫️ *Телефон*: \`${phone}\`
@@ -258,35 +286,36 @@ ${address ? `▫️ *Адрес доставки*: ${address}\n` : ''}
 ${comment ? `\n📝 *Комментарий*: ${comment}` : ''}
 
 #заявка`;
-        
-        // Здесь должен быть ваш токен бота и chat_id
-        const botToken = '7931791308:AAGxczmuOyORYT4MdYinHBuThStRWB8deiM';
-        const chatId = '-1002334913768';
-        
-        // Отправка в Telegram
-        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: message,
-                parse_mode: 'Markdown'
+            
+            // Здесь должен быть ваш токен бота и chat_id
+            const botToken = '7931791308:AAGxczmuOyORYT4MdYinHBuThStRWB8deiM';
+            const chatId = '-1002334913768';
+            
+            // Отправка в Telegram
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
             })
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Ошибка отправки');
-            return response.json();
-        })
-        .then(data => {
-            showNotification('✅ Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-            closeModal();
-            this.reset();
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            showNotification('❌ Ошибка отправки. Пожалуйста, позвоните нам напрямую.', 'error');
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка отправки');
+                return response.json();
+            })
+            .then(data => {
+                showNotification('✅ Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+                closeModal();
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('❌ Ошибка отправки. Пожалуйста, позвоните нам напрямую.', 'error');
+            });
         });
-    });
+    }
 
     // Уведомление
     function showNotification(text, type = 'success') {
@@ -373,83 +402,117 @@ ${comment ? `\n📝 *Комментарий*: ${comment}` : ''}
     const volumeSlider = document.getElementById('volumeSlider');
     const volumeValue = document.getElementById('volumeValue');
     
-    volumeSlider.addEventListener('input', function() {
-        const value = this.value;
-        volumeValue.textContent = value;
-        calculatorState.volume = parseFloat(value);
-        updateTotal();
-    });
+    if (volumeSlider && volumeValue) {
+        volumeSlider.addEventListener('input', function() {
+            const value = this.value;
+            volumeValue.textContent = value;
+            calculatorState.volume = parseFloat(value);
+            updateTotal();
+        });
+    }
     
     // Кнопки быстрого выбора объема
     document.querySelectorAll('[data-volume]').forEach(btn => {
         btn.addEventListener('click', function() {
             const volume = this.getAttribute('data-volume');
-            volumeSlider.value = volume;
-            volumeValue.textContent = volume;
+            if (volumeSlider) volumeSlider.value = volume;
+            if (volumeValue) volumeValue.textContent = volume;
             calculatorState.volume = parseFloat(volume);
             updateTotal();
         });
     });
     
     // Сохранение данных доставки
-    document.getElementById('deliveryAddress').addEventListener('change', function() {
-        calculatorState.deliveryAddress = this.value;
-        updateTotal();
-    });
+    const deliveryAddress = document.getElementById('deliveryAddress');
+    if (deliveryAddress) {
+        deliveryAddress.addEventListener('change', function() {
+            calculatorState.deliveryAddress = this.value;
+            updateTotal();
+        });
+    }
     
-    document.getElementById('deliveryDate').addEventListener('change', function() {
-        calculatorState.deliveryDate = this.value;
-        updateTotal();
-    });
+    const deliveryDate = document.getElementById('deliveryDate');
+    if (deliveryDate) {
+        deliveryDate.addEventListener('change', function() {
+            calculatorState.deliveryDate = this.value;
+            updateTotal();
+        });
+    }
     
-    document.getElementById('deliveryTime').addEventListener('change', function() {
-        calculatorState.deliveryTime = this.value;
-        updateTotal();
-    });
+    const deliveryTime = document.getElementById('deliveryTime');
+    if (deliveryTime) {
+        deliveryTime.addEventListener('change', function() {
+            calculatorState.deliveryTime = this.value;
+            updateTotal();
+        });
+    }
     
     // Сохранение контактных данных
-    document.getElementById('clientName').addEventListener('change', function() {
-        calculatorState.name = this.value;
-    });
+    const clientName = document.getElementById('clientName');
+    if (clientName) {
+        clientName.addEventListener('change', function() {
+            calculatorState.name = this.value;
+        });
+    }
     
-    document.getElementById('clientPhone').addEventListener('change', function() {
-        calculatorState.phone = this.value;
-    });
+    const clientPhone = document.getElementById('clientPhone');
+    if (clientPhone) {
+        clientPhone.addEventListener('change', function() {
+            calculatorState.phone = this.value;
+        });
+    }
     
-    document.getElementById('clientEmail').addEventListener('change', function() {
-        calculatorState.email = this.value;
-    });
+    const clientEmail = document.getElementById('clientEmail');
+    if (clientEmail) {
+        clientEmail.addEventListener('change', function() {
+            calculatorState.email = this.value;
+        });
+    }
     
-    document.getElementById('clientNotes').addEventListener('change', function() {
-        calculatorState.notes = this.value;
-    });
+    const clientNotes = document.getElementById('clientNotes');
+    if (clientNotes) {
+        clientNotes.addEventListener('change', function() {
+            calculatorState.notes = this.value;
+        });
+    }
     
     // Отправка формы калькулятора
-    document.getElementById('submitOrder').addEventListener('click', function() {
-        const name = document.getElementById('clientName').value;
-        const phone = document.getElementById('clientPhone').value;
-        
-        if (!phone) {
-            showNotification('Пожалуйста, укажите ваш телефон', 'error');
-            return;
-        }
-        
-        if (!validatePhone(phone)) {
-            showNotification('Пожалуйста, укажите телефон в формате +998XXXXXXXXX', 'error');
-            return;
-        }
-        
-        // Если все проверки пройдены, открываем модальное окно с заполненными данными
-        document.getElementById('modalName').value = name;
-        document.getElementById('modalPhone').value = phone;
-        document.getElementById('modalEmail').value = document.getElementById('clientEmail').value;
-        document.getElementById('modalGrade').value = calculatorState.grade;
-        document.getElementById('modalVolume').value = calculatorState.volume;
-        document.getElementById('modalAddress').value = calculatorState.deliveryAddress;
-        document.getElementById('modalComment').value = document.getElementById('clientNotes').value;
-        
-        openModal();
-    });
+    const submitOrder = document.getElementById('submitOrder');
+    if (submitOrder) {
+        submitOrder.addEventListener('click', function() {
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            
+            if (!phone) {
+                showNotification('Пожалуйста, укажите ваш телефон', 'error');
+                return;
+            }
+            
+            if (!validatePhone(phone)) {
+                showNotification('Пожалуйста, укажите телефон в формате +998XXXXXXXXX', 'error');
+                return;
+            }
+            
+            // Если все проверки пройдены, открываем модальное окно с заполненными данными
+            const modalName = document.getElementById('modalName');
+            const modalPhone = document.getElementById('modalPhone');
+            const modalEmail = document.getElementById('modalEmail');
+            const modalGrade = document.getElementById('modalGrade');
+            const modalVolume = document.getElementById('modalVolume');
+            const modalAddress = document.getElementById('modalAddress');
+            const modalComment = document.getElementById('modalComment');
+            
+            if (modalName) modalName.value = name;
+            if (modalPhone) modalPhone.value = phone;
+            if (modalEmail) modalEmail.value = document.getElementById('clientEmail').value;
+            if (modalGrade) modalGrade.value = calculatorState.grade;
+            if (modalVolume) modalVolume.value = calculatorState.volume;
+            if (modalAddress) modalAddress.value = calculatorState.deliveryAddress;
+            if (modalComment) modalComment.value = document.getElementById('clientNotes').value;
+            
+            openModal();
+        });
+    }
 
     // Инициализация калькулятора
     updateTotal();
