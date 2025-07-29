@@ -430,7 +430,8 @@ img {
     margin-top: 60px;
 }
 
-.hero-video {
+/* Удалите или закомментируйте старые стили для .hero-video */
+.hero-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -440,13 +441,13 @@ img {
     z-index: -1;
 }
 
-.hero-video video {
+.hero-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.video-overlay {
+.image-overlay {
     position: absolute;
     top: 0;
     left: 0;
