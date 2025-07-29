@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
             basePrice: 0,
             distancePrices: {
                 '10': 0,
-                '20': 50000,
+                '20': 0,
                 '30': 100000,
                 '40': 150000
             }
