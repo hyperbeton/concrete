@@ -132,16 +132,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Данные для калькулятора
     const concreteData = {
         grades: {
-            'M100': { price: 500000, name: 'M100 (B7.5)', type: 'standard' },
-            'M150': { price: 505000, name: 'M150 (B10)', type: 'standard' },
-            'M200': { price: 530000, name: 'M200 (B15)', type: 'standard' },
+            'M100': { price: 499000, name: 'M100 (B7.5)', type: 'standard' },
+            'M150': { price: 510000, name: 'M150 (B10)', type: 'standard' },
+            'M200': { price: 535000, name: 'M200 (B15)', type: 'standard' },
             'M250': { price: 560000, name: 'M250 (B20)', type: 'standard' },
             'M300': { price: 590000, name: 'M300 (B22.5)', type: 'standard' },
-            'M350': { price: 598000, name: 'M350 (B25)', type: 'standard' },
-            'M400': { price: 632000, name: 'M400 (B30)', type: 'standard' },
-            'M450': { price: 655000, name: 'M450 (B35)', type: 'standard' },
-            'M550': { price: 705000, name: 'M550 (B40)', type: 'standard' },
-            'M600': { price: 735000, name: 'M600 (B45)', type: 'standard' },
+            'M350': { price: 620000, name: 'M350 (B25)', type: 'standard' },
+            'M400': { price: 665000, name: 'M400 (B30)', type: 'standard' },
+            'M450': { price: 700000, name: 'M450 (B35)', type: 'standard' },
+            'M550': { price: 735000, name: 'M550 (B40)', type: 'standard' },
+            'M600': { price: 800000, name: 'M600 (B45)', type: 'standard' },
             'M100-fine': { price: 540000, name: 'M100 (B7.5) мелкозернистый', type: 'fine' },
             'M150-fine': { price: 552000, name: 'M150 (B10) мелкозернистый', type: 'fine' },
             'M200-fine': { price: 570000, name: 'M200 (B15) мелкозернистый', type: 'fine' },
@@ -517,3 +517,6 @@ ${comment ? `\n📝 *Комментарий*: ${comment}` : ''}
     // Инициализация калькулятора
     updateTotal();
 });
+
+
+
