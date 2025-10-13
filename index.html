@@ -2,1026 +2,494 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HyperBeton | Премиальный товарный бетон в Ташкенте</title>
-    <meta name="description" content="Производство элитного товарного бетона в Ташкенте. Современные технологии, безупречное качество, точная доставка.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildRent - Аренда техники</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
-    <!-- Прелоадер -->
-    <div class="preloader">
-        <div class="preloader-logo">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#2C7BE5" d="M42.5,-42.5C54.1,-30.9,62.4,-15.4,62.8,0.4C63.2,16.2,55.6,32.4,44,44.9C32.4,57.4,16.2,66.2,-1.2,67.4C-18.6,68.6,-37.2,62.2,-49.4,49.7C-61.6,37.2,-67.4,18.6,-66.5,0.9C-65.6,-16.8,-58,-33.6,-45.8,-45.2C-33.6,-56.8,-16.8,-63.2,0,-63.2C16.8,-63.2,33.6,-56.8,42.5,-42.5Z" transform="translate(100 100)" />
-            </svg>
-        </div>
-    </div>
-
-    <!-- Плавающая кнопка Telegram -->
-    <a href="https://t.me/alimov_jasur" class="telegram-float" target="_blank" aria-label="Написать в Telegram">
-        <i class="fab fa-telegram"></i>
-    </a>
-
-    <!-- Меню -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo" aria-label="HyperBeton - На главную">
-                <span class="logo-icon">HB</span>
-                <span class="logo-text">Hyper<span>Beton</span></span>
-            </a>
-            <div class="nav-links">
-                <a href="#calculator">Калькулятор</a>
-                <a href="#products">Продукция</a>
-                <a href="#advantages">Преимущества</a>
-                <a href="#projects">Проекты</a>
-                <a href="#contacts">Контакты</a>
-            </div>
-            <div class="nav-contacts">
-                <a href="tel:+998977396164" class="nav-phone" aria-label="Позвонить нам">
-                    <i class="fas fa-phone-alt"></i>
-                    <span>+998 97 739 61 64</span>
-                </a>
-                <button class="nav-btn" id="navOrderBtn" aria-label="Заказать бетон">
-                    <span>Заказать</span>
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-            <button class="hamburger" id="hamburger" aria-label="Меню">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Герой -->
-    <header class="hero">
-        <div class="hero-image">
-    <img src="hero-background.jpg" alt="Фоновое изображение HyperBeton" loading="lazy">
-    
-</div>
-        <div class="container">
-            <div class="hero-content" data-aos="fade-up" data-aos-delay="300">
-                <h1>Hyper Beton <span>для выдающихся проектов</span></h1>
-                <p class="subtitle">Технологии премиум-класса для строительства высочайшего уровня</p>
-                <div class="hero-btns">
-                    <button class="btn btn-primary" id="heroOrderBtn">
-                        <span>Рассчитать стоимость</span>
-                        <i class="fas fa-calculator"></i>
-                    </button>
-                    <a href="#products" class="btn btn-outline">
-                        <span>Наша продукция</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </a>
+    <div class="app-container">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen active">
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <i data-lucide="loader-2" class="spinner-icon"></i>
                 </div>
-            </div>
-            <div class="hero-features">
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="feature-icon">
-                        <i class="fas fa-medal"></i>
-                    </div>
-                    <p>Сертифицированное качество</p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <p>Точная доставка +-15 минут</p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="feature-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <p>Собственная лаборатория</p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="feature-icon">
-                        <i class="fas fa-industry"></i>
-                    </div>
-                    <p>Современное производство</p>
-                </div>
+                <h2>Строительная техника</h2>
+                <p>Загрузка приложения...</p>
             </div>
         </div>
-        <div class="hero-scroll">
-            <div class="scroll-anim" aria-hidden="true">
-                <span></span>
-            </div>
-        </div>
-    </header>
 
-    <!-- Калькулятор -->
-    <section class="calculator-section" id="calculator">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Рассчитайте стоимость бетона</h2>
-                <p class="section-subtitle">Точный расчет за 30 секунд</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="calculator-wrapper">
-                <div class="calculator" data-aos="fade-up" data-aos-delay="100">
-                    <div class="calculator-sidebar">
-                        <div class="calc-step active" data-step="1">
-                            <div class="step-number">1</div>
-                            <div class="step-info">
-                                <p class="step-title">Марка бетона</p>
-                                <p class="step-desc">Выберите подходящую марку</p>
-                            </div>
+        <!-- Main Content -->
+        <main id="main-content" class="hidden">
+            <!-- Home Page -->
+            <section id="home-page" class="page active">
+                <div class="page-header compact">
+                    <div class="app-brand">
+                        <div class="brand-logo">
+                            <i data-lucide="building-2"></i>
                         </div>
-                        <div class="calc-step" data-step="2">
-                            <div class="step-number">2</div>
-                            <div class="step-info">
-                                <p class="step-title">Объем</p>
-                                <p class="step-desc">Укажите необходимое количество</p>
-                            </div>
-                        </div>
-                        <div class="calc-step" data-step="3">
-                            <div class="step-number">3</div>
-                            <div class="step-info">
-                                <p class="step-title">Доставка</p>
-                                <p class="step-desc">Место и время поставки</p>
-                            </div>
-                        </div>
-                        <div class="calc-step" data-step="4">
-                            <div class="step-number">4</div>
-                            <div class="step-info">
-                                <p class="step-title">Контакты</p>
-                                <p class="step-desc">Как с вами связаться</p>
-                            </div>
-                        </div>
+                        <h1>Строительная техника</h1>
                     </div>
-                    <div class="calculator-content">
-                        <div class="calc-pages">
-                            <!-- Шаг 1: Выбор марки -->
-                            <div class="calc-page active" data-page="1">
-                                <h3>Выберите марку бетона</h3>
-                                <div class="grade-selector">
-                                    <div class="grade-option" data-grade="M100">
-                                        <div class="grade-info">
-                                            <h4>M100 (B7.5)</h4>
-                                            <p>Неответственные конструкции</p>
-                                        </div>
-                                        <div class="grade-price">499,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M150">
-                                        <div class="grade-info">
-                                            <h4>M150 (B10)</h4>
-                                            <p>Подготовительные работы</p>
-                                        </div>
-                                        <div class="grade-price">510,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M200">
-                                        <div class="grade-info">
-                                            <h4>M200 (B15)</h4>
-                                            <p>Фундаменты, плиты перекрытий</p>
-                                        </div>
-                                        <div class="grade-price">535,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M250">
-                                        <div class="grade-info">
-                                            <h4>M250 (B20)</h4>
-                                            <p>Монолитные конструкции</p>
-                                        </div>
-                                        <div class="grade-price">560,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M300">
-                                        <div class="grade-info">
-                                            <h4>M300 (B22.5)</h4>
-                                            <p>Ответственные сооружения</p>
-                                        </div>
-                                        <div class="grade-price">590,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M350">
-                                        <div class="grade-info">
-                                            <h4>M350 (B25)</h4>
-                                            <p>Многоэтажные здания</p>
-                                        </div>
-                                        <div class="grade-price">620,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M400">
-                                        <div class="grade-info">
-                                            <h4>M400 (B30)</h4>
-                                            <p>Специальные сооружения</p>
-                                        </div>
-                                        <div class="grade-price">665,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M450">
-                                        <div class="grade-info">
-                                            <h4>M450 (B35)</h4>
-                                            <p>Специальные сооружения</p>
-                                        </div>
-                                        <div class="grade-price">700,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M550">
-                                        <div class="grade-info">
-                                            <h4>M550 (B40)</h4>
-                                            <p>Специальные сооружения</p>
-                                        </div>
-                                        <div class="grade-price">735,000 сум/м³</div>
-                                    </div>
-                                    <div class="grade-option" data-grade="M100-fine">
-                                        <div class="grade-info">
-                                            <h4>M100 (B7.5) мелкозернистый</h4>
-                                            <p>Тонкостенные конструкции</p>
-                                        </div>
-                                        <div class="grade-price">540,000 сум/м³</div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-next" data-next="2">Далее</button>
-                            </div>
-
-                            <!-- Шаг 2: Объем -->
-                            <div class="calc-page" data-page="2">
-                                <h3>Укажите необходимый объем</h3>
-                                <div class="volume-selector">
-                                    <div class="volume-input">
-                                        <input type="range" min="1" max="50" step="0.5" value="5" id="volumeSlider" aria-label="Выберите объем бетона">
-                                        <div class="volume-value">
-                                            <span id="volumeValue">5</span> м³
-                                        </div>
-                                    </div>
-                                    <div class="volume-presets">
-                                        <button data-volume="5">5 м³</button>
-                                        <button data-volume="10">10 м³</button>
-                                        <button data-volume="20">20 м³</button>
-                                        <button data-volume="30">30 м³</button>
-                                        <button data-volume="50">50 м³</button>
-
-                                    </div>
-                                </div>
-                                <div class="calc-btns">
-                                    <button class="btn btn-prev" data-prev="1">Назад</button>
-                                    <button class="btn btn-next" data-next="3">Далее</button>
-                                </div>
-                            </div>
-
-                            <!-- Шаг 3: Доставка -->
-                            <div class="calc-page" data-page="3">
-                                <h3>Доставка на ваш объект</h3>
-                                <div class="delivery-selector">
-                                    <div class="form-group">
-                                        <label for="deliveryAddress">Адрес доставки</label>
-                                        <input type="text" id="deliveryAddress" placeholder="Укажите адрес">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="deliveryDate">Дата доставки</label>
-                                        <input type="date" id="deliveryDate">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="deliveryTime">Примерное время</label>
-                                        <select id="deliveryTime">
-                                            <option value="8:00-12:00">Утро (8:00-12:00)</option>
-                                            <option value="12:00-16:00">День (12:00-16:00)</option>
-                                            <option value="16:00-20:00">Вечер (16:00-20:00)</option>
-                                            <option value="20:00-8:00">Ночь (20:00-8:00)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="calc-btns">
-                                    <button class="btn btn-prev" data-prev="2">Назад</button>
-                                    <button class="btn btn-next" data-next="4">Далее</button>
-                                </div>
-                            </div>
-
-                            <!-- Шаг 4: Контакты -->
-                            <div class="calc-page" data-page="4">
-                                <h3>Ваши контактные данные</h3>
-                                <div class="contact-form">
-                                    <div class="form-group">
-                                        <label for="clientName">Ваше имя</label>
-                                        <input type="text" id="clientName" placeholder="Как к вам обращаться?">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="clientPhone">Телефон*</label>
-                                        <input type="tel" id="clientPhone" placeholder="+998 __ ___ __ __" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="clientEmail">Email (необязательно)</label>
-                                        <input type="email" id="clientEmail" placeholder="Для документов">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="clientNotes">Примечания</label>
-                                        <textarea id="clientNotes" placeholder="Особые требования, комментарии..."></textarea>
-                                    </div>
-                                </div>
-                                <div class="calc-summary">
-                                    <div class="summary-item">
-                                        <span>Марка бетона:</span>
-                                        <span id="summaryGrade">M200</span>
-                                    </div>
-                                    <div class="summary-item">
-                                        <span>Объем:</span>
-                                        <span id="summaryVolume">5 м³</span>
-                                    </div>
-                                    <div class="summary-item">
-                                        <span>Доставка:</span>
-                                        <span id="summaryDelivery">Ташкент, 12.06.2023, 8:00-12:00</span>
-                                    </div>
-                                    <div class="summary-total">
-                                        <span>Итого:</span>
-                                        <span id="summaryTotal">2,650,000 сум</span>
-                                    </div>
-                                </div>
-                                <div class="calc-btns">
-                                    <button class="btn btn-prev" data-prev="3">Назад</button>
-                                    <button class="btn btn-submit" id="submitOrder">Отправить заявку</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="location">
+                        <i data-lucide="map-pin"></i>
+                        <span>Ташкент</span>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Продукция -->
-    <section class="products-section" id="products">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Наша продукция</h2>
-                <p class="section-subtitle">Широкий ассортимент бетонных смесей</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="products-grid">
-                <!-- Стандартные марки бетона -->
-                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="product-badge">Хит продаж</div>
-                    <div class="product-header">
-                        <h3>M100 (B7.5)</h3>
-                        <div class="product-price">499,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B7.5</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F50</li>
-                            <li>Водонепроницаемость: W2</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Подготовительные работы</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M100">Заказать</button>
                 </div>
 
-                <div class="product-card" data-aos="fade-up" data-aos-delay="150">
-                    <div class="product-header">
-                        <h3>M150 (B10)</h3>
-                        <div class="product-price">510,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B10</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F50</li>
-                            <li>Водонепроницаемость: W2</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Подбетонка, стяжки, дорожки</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M150">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="product-badge">Хит продаж</div>
-                    <div class="product-header">
-                        <h3>M200 (B15)</h3>
-                        <div class="product-price">535,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B15</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F100</li>
-                            <li>Водонепроницаемость: W4</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Фундаменты, плиты перекрытий, лестницы</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M200">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="250">
-                    <div class="product-header">
-                        <h3>M250 (B20)</h3>
-                        <div class="product-price">560,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B20</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F100</li>
-                            <li>Водонепроницаемость: W4</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Монолитные стены, фундаменты, плиты</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M250">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="product-header">
-                        <h3>M300 (B22.5)</h3>
-                        <div class="product-price">590,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B22.5</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F150</li>
-                            <li>Водонепроницаемость: W6</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Монолитные конструкции, дорожные плиты</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M300">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="350">
-                    <div class="product-header">
-                        <h3>M350 (B25)</h3>
-                        <div class="product-price">620,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B25</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F200</li>
-                            <li>Водонепроницаемость: W8</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Многоэтажные здания, колонны, балки</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M350">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="product-badge">Хит продаж</div>
-                    <div class="product-header">
-                        <h3>M400 (B30)</h3>
-                        <div class="product-price">665,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B30</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F200</li>
-                            <li>Водонепроницаемость: W10</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Специальные сооружения, мостовые конструкции</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M400">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="product-badge">Премиум</div>
-                    <div class="product-header">
-                        <h3>M450 (B35)</h3>
-                        <div class="product-price">700,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B35</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F200</li>
-                            <li>Водонепроницаемость: W10</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Специальные сооружения, мостовые конструкции</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M400">Заказать</button>
-                </div>
-
-                <div class="product-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="product-badge">Премиум</div>
-                    <div class="product-header">
-                        <h3>M550 (B40)</h3>
-                        <div class="product-price">735,000 сум/м³</div>
-                    </div>
-                    <div class="product-body">
-                        <ul class="product-features">
-                            <li>Класс прочности: B40</li>
-                            <li>Подвижность: П3-П4</li>
-                            <li>Морозостойкость: F200</li>
-                            <li>Водонепроницаемость: W10</li>
-                        </ul>
-                        <div class="product-usage">
-                            <h4>Применение:</h4>
-                            <p>Специальные сооружения, мостовые конструкции</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-order" data-grade="M400">Заказать</button>
-                </div>
-
-
-               
-            </div>
-        </div>
-    </section>
-
-    <!-- Преимущества -->
-    <section class="advantages-section" id="advantages">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Почему выбирают HyperBeton?</h2>
-                <p class="section-subtitle">Наши конкурентные преимущества</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="advantages-grid">
-                <div class="advantage-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="advantage-icon">
-                        <div class="icon-circle">
-                            <i class="fas fa-microscope"></i>
-                        </div>
-                    </div>
-                    <h3>Лабораторный контроль</h3>
-                    <p>Каждая партия бетона проходит тщательную проверку в собственной лаборатории на соответствие ГОСТ</p>
-                </div>
-                <div class="advantage-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="advantage-icon">
-                        <div class="icon-circle">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                    </div>
-                    <h3>Автоматизированное производство</h3>
-                    <p>Современный завод с компьютерным управлением обеспечивает точность состава и стабильность качества</p>
-                </div>
-                <div class="advantage-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="advantage-icon">
-                        <div class="icon-circle">
-                            <i class="fas fa-stopwatch"></i>
-                        </div>
-                    </div>
-                    <h3>Точная доставка</h3>
-                    <p>Система GPS-мониторинга позволяет доставить бетон точно в срок с отклонением не более 15 минут</p>
-                </div>
-                <div class="advantage-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="advantage-icon">
-                        <div class="icon-circle">
-                            <i class="fas fa-certificate"></i>
-                        </div>
-                    </div>
-                    <h3>Гарантия качества</h3>
-                    <p>Предоставляем полный пакет документов и гарантию на всю продукцию</p>
-                </div>
-                <div class="advantage-card" data-aos="fade-up" data-aos-delay="500">
-                    <div class="advantage-icon">
-                        <div class="icon-circle">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </div>
-                    </div>
-                    <h3>Скорость производства</h3>
-                    <p>Мощности завода позволяют выполнять заказы любого объема в кратчайшие сроки</p>
-                </div>
-                <div class="advantage-card" data-aos="fade-up" data-aos-delay="600">
-                    <div class="advantage-icon">
-                        <div class="icon-circle">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                    </div>
-                    <h3>Персональный менеджер</h3>
-                    <p>Каждый клиент получает персонального менеджера, сопровождающего заказ от оформления до доставки</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Технологии -->
-    <section class="tech-section">
-        <div class="container">
-            <div class="tech-wrapper">
-                <div class="tech-content" data-aos="fade-right">
-                    <h2>Современные технологии производства</h2>
-                    <p>Наш завод оснащен оборудованием ведущих мировых производителей, что позволяет гарантировать стабильно высокое качество бетонных смесей.</p>
-                    <ul class="tech-list">
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <span>Автоматизированная система дозирования компонентов</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <span>Современные бетоносмесители принудительного типа</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <span>Система контроля температуры компонентов</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i>
-                            <span>Компьютеризированный контроль качества</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tech-image" data-aos="fade-left">
-                    <div class="image-wrapper">
-                        <img src="https://via.placeholder.com/800x600?text=Современный+бетонный+завод" alt="Современный бетонный завод" loading="lazy">
-                        <div class="image-badge">
-                            <i class="fas fa-award"></i>
-                            <span>Сертифицировано ISO 9001</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Проекты -->
-    <section class="projects-section" id="projects">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Наши проекты</h2>
-                <p class="section-subtitle">Бетон, которому доверяют</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="projects-slider">
-                <div class="project-slide" data-aos="fade-up">
-                    <div class="project-image">
-                        <img src="images/citymall.png" alt="Жилой комплекс" loading="lazy">
-                        <div class="project-overlay">
-                            <h3>ЖК "Престиж Хиллс"</h3>
-                            <p>Использовано 12,500 м³ бетона M350</p>
-                            <button class="btn btn-view">Подробнее</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-slide" data-aos="fade-up" data-aos-delay="100">
-                    <div class="project-image">
-                        <img src="images/citymall.png" alt="Торговый центр" loading="lazy">
-                        <div class="project-overlay">
-                            <h3>ТЦ "Гранд Плаза"</h3>
-                            <p>Использовано 8,200 м³ бетона M300</p>
-                            <button class="btn btn-view">Подробнее</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-slide" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-image">
-                        <img src="images/citymall.png" alt="Промышленный объект" loading="lazy">
-                        <div class="project-overlay">
-                            <h3>Завод "ТехноПром"</h3>
-                            <p>Использовано 15,000 м³ бетона M400</p>
-                            <button class="btn btn-view">Подробнее</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Отзывы -->
-    <section class="testimonials-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Отзывы клиентов</h2>
-                <p class="section-subtitle">Что говорят о нас заказчики</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="testimonials-slider">
-                <div class="testimonial-card" data-aos="fade-up">
-                    <div class="testimonial-header">
-                        <div class="client-avatar">
-                            <img src="https://via.placeholder.com/80x80?text=Клиент" alt="Александр Петров" loading="lazy">
-                        </div>
-                        <div class="client-info">
-                            <h4>Александр Петров</h4>
-                            <p class="client-position">Директор ООО "СтройГарант"</p>
-                            <div class="client-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-body">
-                        <p>"Работаем с HyperBeton уже более 3 лет. За это время заказали более 25,000 м³ бетона разных марок. Ни разу не было нареканий по качеству. Особенно хочу отметить точность доставки - машины приходят минута в минуту, что очень важно для нашего производства."</p>
-                    </div>
-                    <div class="testimonial-footer">
-                        <div class="project-info">
-                            <i class="fas fa-building"></i>
-                            <span>15+ совместных проектов</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="testimonial-header">
-                        <div class="client-avatar">
-                            <img src="https://via.placeholder.com/80x80?text=Клиент" alt="Ирина Смирнова" loading="lazy">
-                        </div>
-                        <div class="client-info">
-                            <h4>Ирина Смирнова</h4>
-                            <p class="client-position">Частный застройщик</p>
-                            <div class="client-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-body">
-                        <p>"Строили дом и заказывали бетон для фундамента. Менеджер помог с расчетами, подсказал какую марку лучше выбрать. Доставили точно в оговоренное время, водитель помог с разгрузкой. Фундамент получился ровный, без трещин. Буду рекомендовать вашу компанию знакомым!"</p>
-                    </div>
-                    <div class="testimonial-footer">
-                        <div class="project-info">
-                            <i class="fas fa-home"></i>
-                            <span>Частный дом 250 м²</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Партнеры -->
-    <section class="partners-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Нам доверяют</h2>
-                <p class="section-subtitle">Наши постоянные клиенты</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="partners-grid">
-                <div class="partner-logo" data-aos="fade-up" data-aos-delay="100">
-                    <img src="images/partner1.jpg" alt="Строительная компания" loading="lazy">
-                </div>
-                <div class="partner-logo" data-aos="fade-up" data-aos-delay="200">
-                    <img src="images/1.jpg" alt="Девелоперская компания" loading="lazy">
-                </div>
-                <div class="partner-logo" data-aos="fade-up" data-aos-delay="300">
-                    <img src="images/2.jpg" alt="Промышленная группа" loading="lazy">
-                </div>
-                <div class="partner-logo" data-aos="fade-up" data-aos-delay="400">
-                    <img src="images/3.jpg" alt="Архитектурное бюро" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-wrapper" data-aos="fade-up">
-                <div class="cta-content">
-                    <h2>Готовы начать проект?</h2>
-                    <p>Оставьте заявку и получите персональное предложение уже сегодня</p>
-                </div>
-                <div class="cta-btns">
-                    <button class="btn btn-light" id="ctaOrderBtn">
-                        <span>Оставить заявку</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <a href="tel:+998977396164" class="btn btn-outline-light">
-                        <span>Позвонить нам</span>
-                        <i class="fas fa-phone-alt"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Контакты -->
-    <section class="contacts-section" id="contacts">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Контакты</h2>
-                <p class="section-subtitle">Свяжитесь с нами удобным способом</p>
-                <div class="section-divider"></div>
-            </div>
-            <div class="contacts-wrapper">
-                <div class="contacts-info" data-aos="fade-right">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Адрес</h4>
-                            <p>г. Ташкент, ул. Богишамол, 160</p>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Телефон</h4>
-                            <p>+998 97 739 61 64</p>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <p>info@hyperbeton.uz</p>
-                            <p>sales@hyperbeton.uz</p>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Режим работы</h4>
-                            <p>Пн-Пт: 8:00 - 20:00</p>
-                            <p>Сб-Вс: 9:00 - 18:00</p>
-                        </div>
-                    </div>
-                    <div class="contact-social">
-                        <a href="#" class="social-link" aria-label="Telegram">
-                            <i class="fab fa-telegram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="contacts-map" data-aos="fade-left">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.254365015665!2d69.3036453157253!3d41.339941!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDIwJzIzLjgiTiA2OcKwMTgnMjIuNiJF!5e0!3m2!1sen!2s!4v1623940416781!5m2!1sen!2s&zoom=16&language=ru" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy"
-                        title="Карта расположения HyperBeton">
-                    </iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Футер -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <div class="footer-logo">
-                        <span class="logo-icon">HB</span>
-                        <span class="logo-text">Hyper<span>Beton</span></span>
-                    </div>
-                    <p class="footer-about">Производство и доставка товарного бетона премиального качества в Ташкенте и области.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" aria-label="Telegram">
-                            <i class="fab fa-telegram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h4>Продукция</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Бетон M100-M200</a></li>
-                        <li><a href="#">Бетон M250-M350</a></li>
-                        <li><a href="#">Бетон M400-M500</a></li>
-                        <li><a href="#">Специальные смеси</a></li>
-                        <li><a href="#">Доставка бетона</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Компания</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Производство</a></li>
-                        <li><a href="#">Технологии</a></li>
-                        <li><a href="#">Сертификаты</a></li>
-                        <li><a href="#">Вакансии</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Клиентам</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Доставка и оплата</a></li>
-                        <li><a href="#">Гарантии</a></li>
-                        <li><a href="#">Вопросы и ответы</a></li>
-                        <li><a href="#">Отзывы</a></li>
-                        <li><a href="#">Контакты</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Подписка</h4>
-                    <p>Будьте в курсе новостей и специальных предложений</p>
-                    <form class="footer-subscribe">
-                        <input type="email" placeholder="Ваш email" aria-label="Ваш email">
-                        <button type="submit" aria-label="Подписаться">
-                            <i class="fas fa-paper-plane"></i>
+                <!-- Search Bar -->
+                <div class="search-section">
+                    <div class="search-container">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="global-search" placeholder="Поиск техники..." class="search-input">
+                        <button class="search-filter-btn">
+                            <i data-lucide="filter"></i>
                         </button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    <p>&copy; 2025 HyperBeton. Все права защищены.</p>
-                </div>
-                <div class="footer-legal">
-                    <a href="#">Политика конфиденциальности</a>
-                    <a href="#">Пользовательское соглашение</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
-    <!-- Модальное окно заказа -->
-    <div class="modal" id="orderModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <button class="modal-close" id="modalClose" aria-label="Закрыть">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="modal-header">
-                    <h3>Оформление заказа</h3>
-                    <p>Заполните форму и мы свяжемся с вами в течение 15 минут</p>
+                <!-- Top Equipment -->
+                <div class="section-header">
+                    <h2>🔥 Топовая техника</h2>
+                    <a href="#" class="see-all">Все</a>
                 </div>
-                <div class="modal-body">
-                    <form id="orderForm">
-                        <div class="form-group">
-                            <label for="modalName">Ваше имя*</label>
-                            <input type="text" id="modalName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="modalPhone">Телефон*</label>
-                            <input type="tel" id="modalPhone" placeholder="+998 __ ___ __ __" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="modalEmail">Email (необязательно)</label>
-                            <input type="email" id="modalEmail">
-                        </div>
-                        <div class="form-group">
-                            <label for="modalGrade">Марка бетона</label>
-                            <select id="modalGrade">
-                                <option value="M100">M100 (B7.5) - 499,000 сум/м³</option>
-                                <option value="M150">M150 (B10) - 510,000 сум/м³</option>
-                                <option value="M200">M200 (B15) - 535,000 сум/м³</option>
-                                <option value="M250">M250 (B20) - 560,000 сум/м³</option>
-                                <option value="M300">M300 (B22.5) - 590,000 сум/м³</option>
-                                <option value="M350">M350 (B25) - 605,000 сум/м³</option>
-                                <option value="M400">M400 (B30) - 665,000 сум/м³</option>
-                                <option value="M450">M450 (B35) - 700,000 сум/м³</option>
-                                <option value="M550">M550 (B40) - 735,000 сум/м³</option>
-                                <option value="M100-fine">M100 (B7.5) мелкозернистый - 540,000 сум/м³</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="modalVolume">Объем, м³</label>
-                            <input type="number" id="modalVolume" min="1" step="0.5" value="5">
-                        </div>
-                        <div class="form-group">
-                            <label for="modalAddress">Адрес доставки</label>
-                            <input type="text" id="modalAddress">
-                        </div>
-                        <div class="form-group">
-                            <label for="modalComment">Комментарий</label>
-                            <textarea id="modalComment" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <span>Отправить заявку</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
+
+                <div class="top-equipment-scroll">
+                    <div class="top-equipment-list">
+                        <!-- Top equipment cards will be loaded here -->
+                    </div>
                 </div>
+
+                <!-- Categories -->
+                <div class="section-header">
+                    <h2>📦 Категории</h2>
+                </div>
+
+                <div class="categories-grid">
+                    <div class="category-card" data-category="mixers">
+                        <div class="category-icon">
+                            <img src="img/mixer.png" alt="Миксеры" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0IDdWMTdNMTAgN1YxN00zIDIxSDIxTTYgMTBIMTBNNiAxNEgxME0xOCAxNEgyMk0xOCAxMEgyMk0xOCA3VjE3TTIyIDdWMTciIHN0cm9rZT0iIzI1NjNlYiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Миксеры</h3>
+                            <p>8-12 м³</p>
+                        </div>
+                    </div>
+
+                    <div class="category-card" data-category="pumps">
+                        <div class="category-icon">
+                            <img src="img/pump.png" alt="Насосы" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyIDEySDE5TTUgMTJIMk0xMiA1VjJNMTIgMjJWMTlNMTcuNDk0MiA2LjQ5NDI1TDE5LjY1NjkgNC4zNDMxNk0xNy40OTQyIDE3LjUwNThMMTkuNjU2OSAxOS42NTY5TTYuNTA1NzggNi40OTQyNUw0LjM0MzE2IDQuMzQzMTZNNi41MDU3OCAxNy41MDU4TDQuMzQzMTYgMTkuNjU2OSIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Насосы</h3>
+                            <p>30-50 м</p>
+                        </div>
+                    </div>
+
+                    <div class="category-card" data-category="dump-trucks">
+                        <div class="category-icon">
+                            <img src="img/truck.png" alt="Самосвалы" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0IDdIMmExIDEgMCAwIDAtMSAxdjExYTEgMSAwIDAgMCAxIDFoMW0wIDBoMTBtMCAwaDFhMSAxIDAgMCAwIDEgMXYtM00zIDE4VjVhMiAyIDAgMCAxIDItMmg3YTIgMiAwIDAgMSAyIDJ2MTNtMCAwaDRhMiAyIDAgMSAwIDQtMHYtMyIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Самосвалы</h3>
+                            <p>10-20 т</p>
+                        </div>
+                    </div>
+
+                    <div class="category-card" data-category="cranes">
+                        <div class="category-icon">
+                            <img src="img/crane.png" alt="Краны" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQgMTlWMTVNOCAxOVYxNU0xMiAxOVYxNU0xNiAxOVYxNU0yMCAxOVYxNU0zIDIxSDIxTTMgN0gyMU0zIDNIN00xNyAzSDIxTTcgMTlWN1YzIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxp5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Краны</h3>
+                            <p>25-100 т</p>
+                        </div>
+                    </div>
+
+                    <div class="category-card" data-category="tonars">
+                        <div class="category-icon">
+                            <img src="img/tonar.png" alt="Тонары" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggMTZWMTZNMjAgMTZWMjBNMTYgMTZIMjBNMTYgMTZIMjBNMTIgMTZIMkg0QTIgMiAwIDAgMSAyIDE0VjZBMiAyIDAgMCAxIDQgNEgxNkEyIDIgMCAwIDEgMTggNlYxNEEyIDIgMCAwIDEgMTYgMTZaIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Тонары</h3>
+                            <p>3-5 т</p>
+                        </div>
+                    </div>
+
+                    <div class="category-card" data-category="excavators">
+                        <div class="category-icon">
+                            <img src="img/excavator.png" alt="Экскаваторы" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwIDEwSDE0VjE0SDEwVjEwWk0xNiAxMEgyMFYxNEgxNlYxMFpNMTAgMTZIMjBWMjBIMTBWMTZaIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==';">
+                        </div>
+                        <div class="category-info">
+                            <h3>Экскаваторы</h3>
+                            <p>Землеройные</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Equipment -->
+                <div class="section-header">
+                    <h2>🚜 Вся техника</h2>
+                </div>
+
+                <div class="equipment-list" id="home-equipment">
+                    <!-- Equipment items will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Search Results Page -->
+            <section id="search-page" class="page">
+                <div class="page-header compact">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <div class="search-header">
+                        <div class="search-container inline">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="search-input" placeholder="Поиск техники..." class="search-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-results">
+                    <div class="results-count" id="results-count"></div>
+                    <div class="equipment-list" id="search-results">
+                        <!-- Search results will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category Page -->
+            <section id="category-page" class="page">
+                <div class="page-header">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <h2 id="category-title">Категория</h2>
+                </div>
+
+                <div class="equipment-list" id="category-equipment">
+                    <!-- Equipment items will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Details Page -->
+            <section id="details-page" class="page">
+                <div class="page-header">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <h2 id="equipment-title">Детали</h2>
+                </div>
+
+                <div class="equipment-details" id="equipment-details">
+                    <!-- Equipment details will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Profile Page -->
+            <section id="profile-page" class="page">
+                <div class="page-header">
+                    <h2>Профиль</h2>
+                </div>
+
+                <div class="profile-info">
+                    <div class="user-avatar">
+                        <img id="user-avatar-img" src="" alt="Аватар" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i data-lucide="user" class="avatar-fallback"></i>
+                    </div>
+                    <div class="user-data">
+                        <h3 id="user-name">Загрузка...</h3>
+                        <p id="user-phone">Ташкент</p>
+                        <div class="user-rating">
+                            <span class="rating-stars">★★★★☆</span>
+                            <span class="rating-value" id="user-rating-value">0 отзывов</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="profile-action-btn" id="add-equipment-btn">
+                        <div class="action-icon">
+                            <i data-lucide="plus"></i>
+                        </div>
+                        <span>Добавить технику</span>
+                    </button>
+                    <button class="profile-action-btn" id="my-equipment-btn">
+                        <div class="action-icon">
+                            <i data-lucide="list"></i>
+                        </div>
+                        <span>Моя техника</span>
+                    </button>
+                    <button class="profile-action-btn" id="toggle-availability-btn">
+                        <div class="action-icon">
+                            <i data-lucide="toggle-right"></i>
+                        </div>
+                        <span>Управление доступностью</span>
+                    </button>
+                </div>
+
+                <div class="user-equipment">
+                    <h3>Моя техника</h3>
+                    <div class="equipment-list" id="user-equipment">
+                        <!-- User equipment will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Equipment Page -->
+            <section id="add-equipment-page" class="page">
+                <div class="page-header">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <h2>Добавить технику</h2>
+                </div>
+
+                <div class="add-equipment-form">
+                    <div class="form-group">
+                        <label for="equipment-type">Тип техники *</label>
+                        <select id="equipment-type" required>
+                            <option value="">Выберите тип</option>
+                            <option value="mixers">Автомиксер</option>
+                            <option value="pumps">Автобетононасос</option>
+                            <option value="dump-trucks">Самосвал</option>
+                            <option value="tonars">Тонар</option>
+                            <option value="cranes">Кран</option>
+                            <option value="excavators">Экскаватор</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipment-name">Название техники *</label>
+                        <input type="text" id="equipment-name" placeholder="Например: Камаз 65115" required>
+                    </div>
+
+                    <div id="capacity-group" class="form-group">
+                        <label for="equipment-capacity">Вместимость (м³) *</label>
+                        <input type="number" id="equipment-capacity" placeholder="Например: 10" required>
+                    </div>
+
+                    <div id="length-group" class="form-group hidden">
+                        <label for="equipment-length">Длина стрелы (м) *</label>
+                        <input type="number" id="equipment-length" placeholder="Например: 36" required>
+                    </div>
+
+                    <div id="performance-group" class="form-group hidden">
+                        <label for="equipment-performance">Производительность (м³/ч) *</label>
+                        <input type="number" id="equipment-performance" placeholder="Например: 90" required>
+                    </div>
+
+                    <div id="weight-group" class="form-group hidden">
+                        <label for="equipment-weight">Грузоподъемность (т) *</label>
+                        <input type="number" id="equipment-weight" placeholder="Например: 25" required>
+                    </div>
+
+                    <div id="bucket-group" class="form-group hidden">
+                        <label for="equipment-bucket">Объем ковша (м³) *</label>
+                        <input type="number" id="equipment-bucket" placeholder="Например: 1.2" step="0.1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipment-price">Цена за маш/час (сум) *</label>
+                        <input type="number" id="equipment-price" placeholder="Например: 80000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipment-location">Местоположение *</label>
+                        <input type="text" id="equipment-location" placeholder="Например: Ташкент, Юнусабадский район" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user-phone-input">Ваш номер для связи *</label>
+                        <div class="phone-input-container">
+                            <span class="phone-prefix">+998</span>
+                            <input type="tel" id="user-phone-input" placeholder="90 123 45 67" maxlength="9" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipment-description">Описание *</label>
+                        <textarea id="equipment-description" placeholder="Опишите состояние и особенности техники" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payment-method">Способ оплаты *</label>
+                        <select id="payment-method" required>
+                            <option value="cash">Наличные</option>
+                            <option value="transfer">Безналичный расчет</option>
+                            <option value="both">Оба способа</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-primary" id="save-equipment">Отправить на модерацию</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Availability Management Page -->
+            <section id="availability-page" class="page">
+                <div class="page-header">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <h2>Управление доступностью</h2>
+                </div>
+
+                <div class="availability-management">
+                    <div class="equipment-list" id="availability-equipment">
+                        <!-- Equipment for availability management will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Moderation Status Page -->
+            <section id="moderation-page" class="page">
+                <div class="page-header">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <h2>Статус модерации</h2>
+                </div>
+
+                <div class="moderation-status">
+                    <div class="status-item pending">
+                        <i data-lucide="clock"></i>
+                        <div class="status-info">
+                            <h3>На модерации</h3>
+                            <p>Ожидает проверки</p>
+                            <span class="count" id="pending-count">0</span>
+                        </div>
+                    </div>
+                    <div class="status-item approved">
+                        <i data-lucide="check-circle"></i>
+                        <div class="status-info">
+                            <h3>Одобрено</h3>
+                            <p>Прошло модерацию</p>
+                            <span class="count" id="approved-count">0</span>
+                        </div>
+                    </div>
+                    <div class="status-item rejected">
+                        <i data-lucide="x-circle"></i>
+                        <div class="status-info">
+                            <h3>Отклонено</h3>
+                            <p>Требует исправлений</p>
+                            <span class="count" id="rejected-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="moderation-list" id="moderation-equipment">
+                    <!-- Equipment for moderation will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Admin Panel -->
+            <section id="admin-panel" class="page">
+                <div class="page-header">
+                    <button class="btn-back">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <h2>👑 Панель модерации</h2>
+                </div>
+                
+                <div class="admin-content">
+                    <div class="admin-stats">
+                        <div class="stat-card pending">
+                            <div class="stat-number stat-pending" id="stat-pending">0</div>
+                            <div>На модерации</div>
+                        </div>
+                        <div class="stat-card approved">
+                            <div class="stat-number stat-approved" id="stat-approved">0</div>
+                            <div>Одобрено</div>
+                        </div>
+                        <div class="stat-card rejected">
+                            <div class="stat-number stat-rejected" id="stat-rejected">0</div>
+                            <div>Отклонено</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-tabs">
+                        <button class="tab-btn active" data-filter="pending">⏳ На модерации</button>
+                        <button class="tab-btn" data-filter="approved">✅ Одобренные</button>
+                        <button class="tab-btn" data-filter="rejected">❌ Отклоненные</button>
+                    </div>
+
+                    <div class="equipment-list" id="admin-equipment-list">
+                        <!-- Заявки будут загружаться здесь -->
+                    </div>
+                </div>
+
+                <!-- Equipment Details Modal -->
+                <div id="equipment-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="modal-title">Детали заявки</h3>
+                            <button class="close-modal" onclick="closeAdminModal()">×</button>
+                        </div>
+                        
+                        <div id="modal-content">
+                            <!-- Детали заявки -->
+                        </div>
+                        
+                        <div class="moderation-controls" id="modal-controls">
+                            <!-- Кнопки модерации -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-page="home-page">
+                <div class="nav-icon">
+                    <img src="img/home.png" alt="Главная" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMgOUwxMiAyTDIxIDlWMjBDMjEgMjAuNTUyMyAyMC41NTIzIDIxIDIwIDIxSDVDNC40NDc3MiAyMSA0IDIwLjU1MjMgNCAyMFY5WiIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNOSAyMVYxMkgxNVYyMSIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=';">
+                </div>
+                <span>Главная</span>
+            </div>
+            <div class="nav-item" data-page="search-page">
+                <div class="nav-icon">
+                    <img src="img/search.png" alt="Поиск" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0ibTIxIDIxLTQtNCIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=';">
+                </div>
+                <span>Поиск</span>
+            </div>
+            <div class="nav-item" data-page="add-equipment-page">
+                <div class="nav-icon add-icon">
+                    <i data-lucide="plus"></i>
+                </div>
+                <span>Добавить</span>
+            </div>
+            <div class="nav-item" data-page="profile-page">
+                <div class="nav-icon">
+                    <img src="img/profile.png" alt="Профиль" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDIxVjE5QzIwIDE3LjEzOSAxOC44NjEgMTYgMTcgMTZIN0M1LjEzOSAxNiA0IDE3LjEzOSA0IDE5VjIxIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+';">
+                </div>
+                <span>Профиль</span>
+            </div>
+            <div class="nav-item admin-nav" data-page="admin-panel">
+                <div class="nav-icon">
+                    <img src="img/admin.png" alt="Админ" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDIyQzE3LjUyMjggMjIgMjIgMTcuNTIyOCAyMiAxMkMyMiA2LjQ3NzE1IDE3LjUyMjggMiAxMiAyQzYuNDc3MTUgMiAyIDYuNDc3MTUgMiAxMkMyIDE3LjUyMjggNi40NzcxNSAyMiAxMiAyMloiIHN0cm9rZT0iIzI1NjNlYiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTEyIDE2VjEyIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMiA4SDEyLjAxIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPg==';">
+                </div>
+                <span>Админ</span>
+            </div>
+        </nav>
+
+        <!-- Bottom Search Bar -->
+        <div class="bottom-search hidden">
+            <div class="search-container bottom">
+                <i data-lucide="search"></i>
+                <input type="text" id="bottom-search" placeholder="Поиск техники..." class="search-input">
             </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
