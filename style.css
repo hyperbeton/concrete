@@ -192,6 +192,10 @@ img {
     z-index: 9999;
     transition: opacity 0.5s ease;
 }
+.preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
 .preloader-logo {
     width: 100px;
@@ -430,7 +434,6 @@ img {
     margin-top: 60px;
 }
 
-/* Удалите или закомментируйте старые стили для .hero-video */
 .hero-image {
     position: absolute;
     top: 0;
@@ -447,15 +450,6 @@ img {
     object-fit: cover;
 }
 
-.image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(18, 38, 63, 0.8), rgba(44, 123, 229, 0.6));
-}
-
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
@@ -465,22 +459,22 @@ img {
 }
 
 .hero-content h1 {
-    font-size: 2.2rem;
-    margin-bottom: 1.2rem;
+    font-size: 5.2rem;
+    margin-bottom: 0.2rem;
     line-height: 1.1;
-    color: #5B7E82;
+    color: #FFFFFF;
 }
 
 .hero-content h1 span {
     display: block;
     font-weight: 300;
-    color: #5B7E82;
+    color: #FFFFFF;
 }
 
 .hero-content .subtitle {
     font-size: 1.1rem;
-    color: #5B7E82;
-    margin-bottom: 5rem;
+    color: #FFFFFF;
+    margin-bottom: 25rem;
 }
 
 .hero-btns {
@@ -567,298 +561,6 @@ img {
     }
 }
 
-/* Калькулятор */
-.calculator-section {
-    padding: 4rem 0;
-    background-color: var(--light);
-}
-
-.calculator-wrapper {
-    background-color: var(--white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-}
-
-.calculator {
-    display: flex;
-    min-height: 500px;
-}
-
-.calculator-sidebar {
-    width: 280px;
-    background-color: var(--dark);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.calc-step {
-    display: flex;
-    gap: 0.8rem;
-    align-items: center;
-    padding: 0.6rem;
-    border-radius: var(--radius-sm);
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.calc-step.active {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.calc-step.active .step-number {
-    background-color: var(--primary);
-    color: var(--white);
-}
-
-.step-number {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background-color: var(--dark-80);
-    color: var(--dark-40);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.step-title {
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 0.2rem;
-    font-size: 0.9rem;
-}
-
-.step-desc {
-    font-size: 0.7rem;
-    color: var(--dark-40);
-    margin-bottom: 0;
-}
-
-.calculator-content {
-    flex: 1;
-    padding: 1.5rem;
-}
-
-.calc-pages {
-    height: 100%;
-}
-
-.calc-page {
-    height: 100%;
-    display: none;
-    flex-direction: column;
-}
-
-.calc-page.active {
-    display: flex;
-}
-
-.calc-page h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    color: var(--dark);
-}
-
-.grade-selector {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-}
-
-.grade-option {
-    border: 1px solid var(--dark-20);
-    border-radius: var(--radius-md);
-    padding: 1.2rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.grade-option:hover {
-    border-color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-sm);
-}
-
-.grade-option h4 {
-    font-size: 1.1rem;
-    color: var(--dark);
-    margin-bottom: 0.4rem;
-}
-
-.grade-option p {
-    font-size: 0.8rem;
-    color: var(--dark-60);
-    margin-bottom: 0.8rem;
-}
-
-.grade-price {
-    font-weight: 700;
-    color: var(--primary);
-    font-size: 0.9rem;
-}
-
-.volume-selector {
-    margin-bottom: 1.5rem;
-}
-
-.volume-input {
-    margin-bottom: 1.2rem;
-}
-
-.volume-value {
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-top: 0.8rem;
-}
-
-.volume-value span {
-    font-size: 1.8rem;
-}
-
-.volume-presets {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-}
-
-.volume-presets button {
-    padding: 0.4rem 0.8rem;
-    background-color: var(--dark-10);
-    border: 1px solid var(--dark-20);
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.8rem;
-}
-
-.volume-presets button:hover {
-    background-color: var(--primary-light);
-    border-color: var(--primary);
-    color: var(--primary);
-}
-
-.delivery-selector {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-.form-group {
-    margin-bottom: 1.2rem;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    color: var(--dark-80);
-    font-size: 0.9rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 0.7rem 0.9rem;
-    border: 1px solid var(--dark-20);
-    border-radius: var(--radius-md);
-    font-family: 'Manrope', sans-serif;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-}
-
-.contact-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-.calc-summary {
-    background-color: var(--light);
-    border-radius: var(--radius-md);
-    padding: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.6rem;
-    font-size: 0.8rem;
-}
-
-.summary-item span:first-child {
-    color: var(--dark-60);
-}
-
-.summary-total {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.8rem;
-    padding-top: 0.8rem;
-    border-top: 1px solid var(--dark-20);
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.summary-total span:last-child {
-    color: var(--primary);
-    font-size: 1.1rem;
-}
-
-.calc-btns {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.8rem;
-}
-
-.btn-prev {
-    background-color: var(--dark-10);
-    color: var(--dark);
-}
-
-.btn-prev:hover {
-    background-color: var(--dark-20);
-}
-
-.btn-next {
-    background-color: var(--primary);
-    color: var(--white);
-}
-
-.btn-next:hover {
-    background-color: var(--primary-dark);
-}
-
-.btn-submit {
-    background-color: var(--secondary);
-    color: var(--white);
-}
-
-.btn-submit:hover {
-    background-color: var(--secondary-dark);
-}
-
 /* Продукция */
 .products-section {
     padding: 4rem 0;
@@ -899,10 +601,6 @@ img {
     color: var(--white);
 }
 
-.product-badge[data-badge="Мелкозернистый"] {
-    background-color: var(--secondary);
-}
-
 .product-header {
     padding: 1.2rem;
     border-bottom: 1px solid var(--dark-10);
@@ -915,12 +613,6 @@ img {
     margin-bottom: 0;
     color: var(--primary);
     font-size: 1.1rem;
-}
-
-.product-price {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--dark);
 }
 
 .product-body {
@@ -1603,6 +1295,7 @@ img {
     transition: all 0.3s ease;
     max-height: 90vh;
     overflow-y: auto;
+    position: relative;
 }
 
 .modal.active .modal-content {
@@ -1703,7 +1396,7 @@ img {
     background-color: var(--danger);
 }
 
-/* WhatsApp кнопка */
+/* Telegram кнопка */
 .telegram-float {
     position: fixed;
     bottom: 1.5rem;
@@ -1763,6 +1456,10 @@ img {
     opacity: 1;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 /* Адаптивность */
 @media (max-width: 1200px) {
     .tech-wrapper {
@@ -1784,22 +1481,6 @@ img {
 }
 
 @media (max-width: 992px) {
-    .calculator {
-        flex-direction: column;
-    }
-    
-    .calculator-sidebar {
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 1rem;
-    }
-    
-    .calc-step {
-        flex: 1;
-        min-width: 150px;
-    }
-    
     .grade-selector {
         grid-template-columns: 1fr 1fr;
     }
@@ -1850,10 +1531,6 @@ img {
         gap: 0.5rem;
     }
     
-    .product-price {
-        font-size: 0.9rem;
-    }
-    
     .footer-content {
         grid-template-columns: 1fr;
     }
@@ -1892,10 +1569,6 @@ img {
     
     .hero-features {
         display: none;
-    }
-    
-    .calc-step {
-        min-width: 100%;
     }
     
     .footer-bottom {
